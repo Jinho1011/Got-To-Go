@@ -34,7 +34,6 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.HOME} component={HomeScreen} />
         <Stack.Screen
           name={SCREENS.REGISTER_USER}
           component={RegisterUserScreen}
@@ -43,6 +42,7 @@ const Navigation = () => {
           name={SCREENS.REGISTER_EXERCISE}
           component={RegisterExerciseScreen}
         />
+        <Stack.Screen name={SCREENS.HOME} component={HomeScreen} />
         <Stack.Screen name={SCREENS.ACHIEVMENT} component={AchievementScreen} />
         <Stack.Screen
           name={SCREENS.SELECT_EXERCISE}

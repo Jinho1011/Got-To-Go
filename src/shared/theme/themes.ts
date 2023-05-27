@@ -5,7 +5,7 @@ export const palette = {
   secondary: "#ff6a00",
   background: "#f6f8fa",
   white: "#fff",
-  black: "#101214",
+  black: "#000000",
   button: "#1c1e21",
   shadow: "#757575",
   text: "#30363b",
