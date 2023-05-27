@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports
@@ -26,34 +26,44 @@ const Navigation = () => {
   }, []);
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={() => {
-        isReadyRef.current = true;
+    <ThemeProvider
+      value={{
+        dark: true,
+        colors: DarkTheme,
       }}
-      theme={isDarkMode ? DarkTheme : LightTheme}
     >
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name={SCREENS.REGISTER_USER}
-          component={RegisterUserScreen}
-        />
-        <Stack.Screen
-          name={SCREENS.REGISTER_EXERCISE}
-          component={RegisterExerciseScreen}
-        />
-        <Stack.Screen name={SCREENS.HOME} component={HomeScreen} />
-        <Stack.Screen name={SCREENS.ACHIEVMENT} component={AchievementScreen} />
-        <Stack.Screen
-          name={SCREENS.SELECT_EXERCISE}
-          component={SelectExerciseScreen}
-        />
-        <Stack.Screen
-          name={SCREENS.START_EXERCISE}
-          component={StartExerciseScreen}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => {
+          isReadyRef.current = true;
+        }}
+        theme={isDarkMode ? DarkTheme : LightTheme}
+      >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name={SCREENS.REGISTER_USER}
+            component={RegisterUserScreen}
+          />
+          <Stack.Screen
+            name={SCREENS.REGISTER_EXERCISE}
+            component={RegisterExerciseScreen}
+          />
+          <Stack.Screen name={SCREENS.HOME} component={HomeScreen} />
+          <Stack.Screen
+            name={SCREENS.ACHIEVMENT}
+            component={AchievementScreen}
+          />
+          <Stack.Screen
+            name={SCREENS.SELECT_EXERCISE}
+            component={SelectExerciseScreen}
+          />
+          <Stack.Screen
+            name={SCREENS.START_EXERCISE}
+            component={StartExerciseScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 

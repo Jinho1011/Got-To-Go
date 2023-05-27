@@ -24,7 +24,8 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-navigation-helpers": "^2.1.0"
+    "react-navigation-helpers": "^2.1.0",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -36,6 +37,8 @@
     "@tsconfig/react-native": "^2.0.2",
     "@types/react": "^18.0.24",
     "@types/react-native": "0.70.7",
+    "@types/styled-components": "^5.1.26",
+    "@types/styled-components-react-native": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.49.0",
     "babel-plugin-module-resolver": "^4.1.0",
