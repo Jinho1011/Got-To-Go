@@ -8,7 +8,7 @@ import useSelect from "../../shared/hooks/useSelect";
 import RoundButton from "@shared-components/Button/RoundButton";
 import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "@shared-constants";
-import { KEY, storeData } from "@utils";
+import { KEY, storeData } from "../../utils/storage";
 import Logo from "@shared-components/Logo";
 
 const RegisterUserScreen = () => {

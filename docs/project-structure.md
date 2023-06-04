@@ -11,20 +11,20 @@
 - `/ios` - native code specific to iOS
 - `/docs` - as the name suggests - any docs
 - `/src` - contains our JS and style code.
-  - `/screens` - contains all screens/pages
-  - `/services` - app-wide services
-    - `/api` - generic network handling with API constants
-    - `/event-emitter` - singleton event bus to use it everywhere in the project
-    - `/models` - generic models should lay here
-    - `/navigation` - navigation system lay here
-  - `/shared` - whole app-wide shared
-    - `/components` - app-wide shared components
-    - `/constants` - app-wide shared constant variables
-    - `/localization` - app-wide localization
-    - `/theme` - app-wide theme which contains `color palette` and `fonts`
-  - `/utils` - generic util functions
-  - `index.js` - the starting place for our app
-  - `App.tsx` - the main place for our app
+    - `/screens` - contains all screens/pages
+    - `/services` - app-wide services
+        - `/api` - generic network handling with API constants
+        - `/event-emitter` - singleton event bus to use it everywhere in the project
+        - `/models` - generic models should lay here
+        - `/navigation` - navigation system lay here
+    - `/shared` - whole app-wide shared
+        - `/components` - app-wide shared components
+        - `/constants` - app-wide shared constant variables
+        - `/localization` - app-wide localization
+        - `/theme` - app-wide theme which contains `color palette` and `fonts`
+    - `/utils` - generic util functions
+    - `index.js` - the starting place for our app
+    - `App.tsx` - the main place for our app
 
 ## Project Structure on Flat Design
 
@@ -51,25 +51,25 @@
 │   ├───services
 │   │   ├───api
 │   │   │   ├───api.constant.ts
-│   │   │   └───index.ts
+│   │   │   └───storage.ts
 │   │   ├───event-emitter
-│   │   │   └───index.ts
+│   │   │   └───storage.ts
 │   │   ├───models
-│   │   │   └───index.ts
+│   │   │   └───storage.ts
 │   │   └───navigation
 │   │       └───index.tsx
 │   ├───shared
 │   │   ├───components
 │   │   │   └───text-wrapper
 │   │   ├───constants
-│   │   │   └───index.ts
+│   │   │   └───storage.ts
 │   │   ├───localization
-│   │   │   └───index.ts
+│   │   │   └───storage.ts
 │   │   └───theme
 │   │       ├───fonts.ts
 │   │       └───themes.ts
 │   └───utils
-│       └───index.ts
+│       └───storage.ts
 ├───.babelrc
 ├───.commitlintrc.json
 ├───.eslintignore

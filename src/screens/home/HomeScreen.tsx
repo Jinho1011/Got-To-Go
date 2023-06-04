@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "@shared-components/Logo";
-import { getData, KEY } from "@utils";
+import { getData, KEY } from "../../utils/storage";
 import User from "../../shared/types/User";
 import { FlatList, Pressable, Text, View } from "react-native";
 import styled from "styled-components";

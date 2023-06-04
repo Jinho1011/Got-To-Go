@@ -1,4 +1,3 @@
-import RNBounceable from "@freakycoder/react-native-bounceable";
 import { useTheme } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
@@ -10,12 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import * as NavigationService from "react-navigation-helpers";
 import CheckboxCardItem from "./components/CheckboxCardItem";
 import { SCREENS } from "@shared-constants";
 import createStyles from "./SelectExerciseScreen.style";
 import { IExerciseData } from "./ExerciseData.interface";
 import Logo from "@shared-components/Logo";
+import RoundButton from "@shared-components/Button/RoundButton";
 
 const categories = [
   "All",
@@ -43,15 +42,9 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  /*----------------------------------------------------------------------------
-    
-                                    Data, Item, List
-
-    ----------------------------------------------------------------------------*/
-
   const [exercises, setExercises] = useState<IExerciseData[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [checkedExerciseData, setCheckedExerciseData] = useState<string[]>([]);
+  // const [checkedExerciseData, setCheckedExerciseData] = useState<string[]>([]);
 
   // Get API Data
   useEffect(() => {
@@ -143,18 +136,9 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
 
     ----------------------------------------------------------------------------*/
 
-  const handleRecordBtnPress = () => {
-    NavigationService.navigate(SCREENS.START_EXERCISE, { checkedExerciseData });
-  };
-
-  const StartRecordBtn = () => {
-    return (
-      <RNBounceable style={styles.buttonStyle} onPress={handleRecordBtnPress}>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <Text style={styles.buttonTextStyle}>"Start Exercise"</Text>
-      </RNBounceable>
-    );
-  };
+  // const handleRecordBtnPress = () => {
+  //   NavigationService.navigate(SCREENS.START_EXERCISE, { checkedExerciseData });
+  // };
 
   /* 뒤로가기 버튼
 
@@ -188,17 +172,18 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
     </View>
   );
 
-  const Footer = () => (
-    <View style={styles.footer}>
-      <StartRecordBtn />
-    </View>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <Logo />
       <Content />
-      <Footer />
+      <RoundButton
+        title={"운동 시작하기"}
+        onPress={() => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          navigation.navigate(SCREENS.SELECT_EXERCISE);
+        }}
+      />
     </SafeAreaView>
   );
 };

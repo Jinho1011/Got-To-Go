@@ -15,7 +15,7 @@ import AchievementScreen from "@screens/achievement/AchievementScreen";
 import SelectExerciseScreen from "@screens/exercise/SelectExerciseScreen";
 import StartExerciseScreen from "@screens/exercise/StartExerciseScreen";
 import User from "../shared/types/User";
-import { getData, KEY } from "@utils";
+import { getData, KEY } from "../utils/storage";
 
 // ? If you want to use stack or tab or both
 const Stack = createStackNavigator();
