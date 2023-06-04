@@ -1,14 +1,12 @@
 import React, { useMemo } from "react";
-import { View, StyleProp, ViewStyle, TextInput } from "react-native";
+import { StyleProp, TextInput, View, ViewStyle } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 /**
  * ? Local Imports
  */
 import createStyles from "./CardItem_RecordScreen.style";
-import { ICardItem } from "@services/models";
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import { IPlanData } from "@screens/exercise/ExerciseData.interface";
 
 type CustomStyleProp = StyleProp<ViewStyle> | Array<StyleProp<ViewStyle>>;
 
@@ -24,10 +22,8 @@ const CardItem: React.FC<exerciseCardItemProps> = ({
   onPress,
 }) => {
   const theme = useTheme();
-  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const [text, onChangeText] = React.useState("Useless Text");
   const [number, onChangeNumber] = React.useState("");
 
   const Header = () => (
@@ -40,7 +36,7 @@ const CardItem: React.FC<exerciseCardItemProps> = ({
 
   const Set = () => (
     <View style={styles.setContainer}>
-      <Text style={styles.textStyle}>"Set"</Text>
+      <Text style={styles.textStyle}>Set</Text>
       <TextInput
         style={styles.textInputStyle}
         onChangeText={onChangeNumber}
@@ -53,7 +49,7 @@ const CardItem: React.FC<exerciseCardItemProps> = ({
 
   const Weight = () => (
     <View style={styles.weightContainer}>
-      <Text style={styles.textStyle}>"lbs/kg"</Text>
+      <Text style={styles.textStyle}>lbs/kg</Text>
       <TextInput
         style={styles.textInputStyle}
         onChangeText={onChangeNumber}
@@ -66,7 +62,7 @@ const CardItem: React.FC<exerciseCardItemProps> = ({
 
   const Count = () => (
     <View style={styles.countContainer}>
-      <Text style={styles.textStyle}>"Count"</Text>
+      <Text style={styles.textStyle}>Count</Text>
       <TextInput
         style={styles.textInputStyle}
         onChangeText={onChangeNumber}

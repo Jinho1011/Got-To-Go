@@ -3,22 +3,19 @@ import { useTheme } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  View,
-  Text,
   FlatList,
   SafeAreaView,
-  TouchableOpacity,
   ScrollView,
-  Image,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import * as NavigationService from "react-navigation-helpers";
 import CheckboxCardItem from "./components/CheckboxCardItem";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
 import { SCREENS } from "@shared-constants";
 import createStyles from "./SelectExerciseScreen.style";
 import { IExerciseData } from "./ExerciseData.interface";
-
-const logo = require("srcassetsPendulum_Logo.png");
+import Logo from "@shared-components/Logo";
 
 const categories = [
   "All",
@@ -44,7 +41,6 @@ interface SelectExerciseScreenProps {}
 
 const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
   const theme = useTheme();
-  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   /*----------------------------------------------------------------------------
@@ -67,34 +63,12 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
       const response = await axios.get(
         "https://api.api-ninjas.com/v1/exercises?muscle=",
       );
-      const data = response.data;
+      const { data } = response;
       setExercises(data);
     } catch (error) {
       console.error("Error fetching exercises:", error);
     }
   };
-
-  /* list Item
-    const renderItem = (exercises: any) => {
-        return (
-            <View style={{marginTop: 16}}>
-                <CheckboxCardItem 
-                    exerciseData={exercises}
-                    onPress={
-                        (checked: boolean) => {
-                            console.log('Checked: ', checked)
-                            if (checked) {
-                                setSelectedExerciseData(prevItems => [...prevItems, exercises.name]);
-                              } else {
-                                setSelectedExerciseData(prevItems => prevItems.filter(prevItem => prevItem !== exercises.name));
-                              }
-                        }
-                    }
-                />
-            </View>
-        );
-    };
-    */
 
   // Categories
 
@@ -176,6 +150,7 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
   const StartRecordBtn = () => {
     return (
       <RNBounceable style={styles.buttonStyle} onPress={handleRecordBtnPress}>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         <Text style={styles.buttonTextStyle}>"Start Exercise"</Text>
       </RNBounceable>
     );
@@ -206,16 +181,6 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
 
   // 큰 틀로 정리
 
-  const Header = () => (
-    <View style={styles.header}>
-      <Image
-        resizeMode="contain"
-        source={logo}
-        style={{ width: 15, height: 15 }}
-      />
-    </View>
-  );
-
   const Content = () => (
     <View style={styles.contentContainer}>
       <Categories />
@@ -231,7 +196,7 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Logo />
       <Content />
       <Footer />
     </SafeAreaView>

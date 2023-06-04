@@ -1,31 +1,30 @@
 import React, { useMemo, useState } from "react";
-import { FlatList, Image, SafeAreaView, View } from "react-native";
+import { FlatList, SafeAreaView, View } from "react-native";
 import { RouteProp, useRoute, useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import createStyles from "./StartExerciseScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 import { SCREENS } from "@shared-constants";
-import CardItem from "./components/CardItem_RecordScreen";
-import * as NavigationService from "react-navigation-helpers";
+// eslint-disable-next-line camelcase
 import CardItem_RecordScreen from "./components/CardItem_RecordScreen";
-import { ImageComponent } from "react-native";
-import { IPlanData } from "@screens/exercise/ExerciseData.interface";
+import * as NavigationService from "react-navigation-helpers";
+import Logo from "@shared-components/Logo";
 
-const logo = require("srcassetsPendulum_Logo.png");
-const defaultCheckIcon = require("srcscreens\recordcomponentslocal-assetscheck-icon-white.png");
-const isCheckedIcon = require("srcscreens\recordcomponentslocal-assetscheck-icon-gold.png");
+// const logo = require("srcassetsPendulum_Logo.png");
+// const defaultCheckIcon = require("srcscreens\recordcomponentslocal-assetscheck-icon-white.png");
+// const isCheckedIcon = require("srcscreens\recordcomponentslocal-assetscheck-icon-gold.png");
 
 interface StartExerciseScreenProps {}
 
-type StartExerciseScreenRouteProp = RouteProp<{ START_EXERCISE: { data: string[] } }>;
+type StartExerciseScreenRouteProp = RouteProp<{
+  START_EXERCISE: { data: string[] };
+}>;
 
 const StartExerciseScreen: React.FC<StartExerciseScreenProps> = () => {
   const theme = useTheme();
-  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const route = useRoute<StartExerciseScreenRouteProp>();
@@ -62,6 +61,7 @@ const StartExerciseScreen: React.FC<StartExerciseScreenProps> = () => {
           data={data}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
+              {/* eslint-disable-next-line camelcase */}
               <CardItem_RecordScreen
                 nameData={item}
                 onPress={() => console.log("Render CardItem")}
@@ -71,11 +71,11 @@ const StartExerciseScreen: React.FC<StartExerciseScreenProps> = () => {
                 bouncinessIn={3}
                 onPress={handleCheckedOnPress}
               >
-                <ImageComponent
-                  resizeMode="contain"
-                  source={isChecked ? isCheckedIcon : defaultCheckIcon}
-                  style={{ width: 30, height: 30 }}
-                />
+                {/*<ImageComponent*/}
+                {/*  resizeMode="contain"*/}
+                {/*  source={isChecked ? isCheckedIcon : defaultCheckIcon}*/}
+                {/*  style={{ width: 30, height: 30 }}*/}
+                {/*/>*/}
               </RNBounceable>
             </View>
           )}
@@ -122,22 +122,13 @@ const StartExerciseScreen: React.FC<StartExerciseScreenProps> = () => {
   const CompleteBtn = () => {
     return (
       <RNBounceable style={styles.buttonStyle} onPress={handleCompleteBtnPress}>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         <Text style={styles.buttonTextStyle}>"Complete"</Text>
       </RNBounceable>
     );
   };
 
   // 큰 틀로 정리
-
-  const Header = () => (
-    <View style={styles.header}>
-      <Image
-        resizeMode="contain"
-        source={logo}
-        style={{ width: 15, height: 15 }}
-      />
-    </View>
-  );
 
   const Content = () => (
     <View style={styles.contentContainer}>
@@ -153,7 +144,7 @@ const StartExerciseScreen: React.FC<StartExerciseScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Logo />
       <Content />
       <Footer />
     </SafeAreaView>

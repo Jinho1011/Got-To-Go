@@ -1,7 +1,6 @@
 import { ScreenWidth } from "@freakycoder/react-native-helpers";
 import { ExtendedTheme } from "@react-navigation/native";
-import { View } from "react-native";
-import { ViewStyle, StyleSheet, TextStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface Style {
   container: ViewStyle;

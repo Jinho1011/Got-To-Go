@@ -1,19 +1,18 @@
 import * as React from "react";
-import { Image, Text, View, Dimensions } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 /**
  * ? Local Imports
  */
 import styles, {
   _cardStyle,
-  _textStyle,
   _circleCheckContainer,
 } from "./CheckboxCardItem.style";
-import { IExerciseData } from "../../exercise/ExerciseData.interface";
+import { IExerciseData } from "../ExerciseData.interface";
 
 const { width: ScreenWidth } = Dimensions.get("window");
 
-const defaultCheckIcon = require("./local-assets/check-icon-dark.png");
+// const defaultCheckIcon = require("./local-assets/check-icon-dark.png");
 
 export interface ISource {
   source: string | { uri: string };
@@ -71,22 +70,22 @@ export default class RNCheckboxCard extends React.Component<
   /*                               Render Methods                               */
   /* -------------------------------------------------------------------------- */
 
-  renderCheckIcon = () => {
-    const {
-      checkIconComponent,
-      ImageComponent = Image,
-      checkImageSource = defaultCheckIcon,
-    } = this.props;
-    return (
-      checkIconComponent || (
-        <ImageComponent
-          resizeMode="contain"
-          source={checkImageSource}
-          style={styles.checkIconImageStyle}
-        />
-      )
-    );
-  };
+  // renderCheckIcon = () => {
+  //   const {
+  //     checkIconComponent,
+  //     ImageComponent = Image,
+  //     checkImageSource = defaultCheckIcon,
+  //   } = this.props;
+  //   return (
+  //     checkIconComponent || (
+  //       <ImageComponent
+  //         resizeMode="contain"
+  //         source={checkImageSource}
+  //         style={styles.checkIconImageStyle}
+  //       />
+  //     )
+  //   );
+  // };
 
   renderCircleCheck = () => {
     const { checked } = this.state;
@@ -106,7 +105,7 @@ export default class RNCheckboxCard extends React.Component<
           circleBorderColor,
         )}
       >
-        {checked && this.renderCheckIcon()}
+        {/*{checked && this.renderCheckIcon()}*/}
       </View>
     );
   };
