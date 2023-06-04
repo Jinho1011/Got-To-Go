@@ -1,23 +1,13 @@
-import { useTheme } from "@react-navigation/native";
-import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import CheckboxCardItem from "./components/CheckboxCardItem";
+import React, { useState } from "react";
+import { Pressable, SafeAreaView, ScrollView, Text } from "react-native";
 import { SCREENS } from "@shared-constants";
-import createStyles from "./SelectExerciseScreen.style";
-import { IExerciseData } from "./ExerciseData.interface";
 import Logo from "@shared-components/Logo";
 import RoundButton from "@shared-components/Button/RoundButton";
+import styled from "styled-components";
+import { useNavigation } from "@react-navigation/native";
 
 const categories = [
-  "All",
+  "all",
   "abdominals",
   "abductors",
   "adductors",
@@ -36,146 +26,32 @@ const categories = [
   "triceps",
 ];
 
-interface SelectExerciseScreenProps {}
-
-const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
-  const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
-
-  const [exercises, setExercises] = useState<IExerciseData[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  // const [checkedExerciseData, setCheckedExerciseData] = useState<string[]>([]);
-
-  // Get API Data
-  useEffect(() => {
-    fetchExercises();
-  }, []);
-
-  const fetchExercises = async () => {
-    try {
-      const response = await axios.get(
-        "https://api.api-ninjas.com/v1/exercises?muscle=",
-      );
-      const { data } = response;
-      setExercises(data);
-    } catch (error) {
-      console.error("Error fetching exercises:", error);
-    }
-  };
-
-  // Categories
-
-  const filterExercisesByCategory = (category: string) => {
-    if (category === selectedCategory) {
-      setSelectedCategory("");
-    } else {
-      setSelectedCategory(category);
-    }
-  };
-
-  const Categories = () => (
-    <ScrollView horizontal>
-      {categories.map((category, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => filterExercisesByCategory(category)}
-          style={{
-            paddingHorizontal: 10,
-            paddingVertical: 5,
-            backgroundColor:
-              selectedCategory === category ? "gray" : "lightgray",
-            marginRight: 10,
-            borderRadius: 10,
-          }}
-        >
-          <Text>{category}</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+const SelectExerciseScreen = () => {
+  const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categories[0],
   );
+  // const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
 
-  // List
-
-  const ExerciseList = () => {
-    let filteredExercises = exercises;
-    if (selectedCategory) {
-      filteredExercises = exercises.filter(
-        (exercises) => exercises.muscle === selectedCategory,
-      );
-    }
-
-    return (
-      <FlatList
-        data={filteredExercises}
-        renderItem={({ item }) => (
-          <CheckboxCardItem
-            exerciseData={item}
-            onPress={(checked: boolean) => {
-              console.log("Checked: ", checked);
-              if (checked) {
-                setCheckedExerciseData((prevItems) => [
-                  ...prevItems,
-                  item.name,
-                ]);
-              } else {
-                setCheckedExerciseData((prevItems) =>
-                  prevItems.filter((prevItem) => prevItem !== item.name),
-                );
-              }
-            }}
-          />
-        )}
-        keyExtractor={(_, index) => index.toString()}
-      />
-    );
+  const onPressCategoryButton = (category: string) => {
+    setSelectedCategory(category);
   };
-
-  /*----------------------------------------------------------------------------
-    
-                                        Button
-
-    ----------------------------------------------------------------------------*/
-
-  // const handleRecordBtnPress = () => {
-  //   NavigationService.navigate(SCREENS.START_EXERCISE, { checkedExerciseData });
-  // };
-
-  /* 뒤로가기 버튼
-
-    const handleBackBtnPress = () => {
-        NavigationService.push(SCREENS.HOME);
-    };
-
-    const BackBtn = () => {
-        return (
-            <RNBounceable style={} onPress={handleBackBtnPress}>
-                <Text>
-                    <Icon
-                        name="chevron-back"
-                        type={IconType.Ionicons}
-                        color="white"
-                        size={30}  
-                    />
-                </Text>
-            </RNBounceable>
-        )
-    }
-
-    */
-
-  // 큰 틀로 정리
-
-  const Content = () => (
-    <View style={styles.contentContainer}>
-      <Categories />
-      <ExerciseList />
-    </View>
-  );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container>
       <Logo />
-      <Content />
+      <CategoryContainer horizontal>
+        {categories.map((category) => (
+          <CategoryButton
+            key={category}
+            onPress={() => onPressCategoryButton(category)}
+          >
+            <CategoryText selected={selectedCategory === category}>
+              {category}
+            </CategoryText>
+          </CategoryButton>
+        ))}
+      </CategoryContainer>
       <RoundButton
         title={"운동 시작하기"}
         onPress={() => {
@@ -184,8 +60,30 @@ const SelectExerciseScreen: React.FC<SelectExerciseScreenProps> = () => {
           navigation.navigate(SCREENS.SELECT_EXERCISE);
         }}
       />
-    </SafeAreaView>
+    </Container>
   );
 };
 
 export default SelectExerciseScreen;
+
+const Container = styled(SafeAreaView)`
+  flex: 1;
+  padding: 0 10px;
+  gap: 20px;
+`;
+
+const CategoryContainer = styled(ScrollView)``;
+
+const CategoryButton = styled(Pressable)`
+  justify-content: center;
+  align-items: center;
+  background-color: #252525;
+  padding: 0 10px;
+  height: 32px;
+  margin-right: 10px;
+  border-radius: 6px;
+`;
+
+const CategoryText = styled(Text)<{ selected: boolean }>`
+  color: ${({ selected }) => (selected ? "#ffffff" : "#bdbdbd")};
+`;
