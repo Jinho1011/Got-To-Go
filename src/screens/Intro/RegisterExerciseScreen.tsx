@@ -1,16 +1,16 @@
 import React from "react";
-import Icon from "@shared-components/Icon";
-import icLogo from "../../assets/images/logo.svg";
 import SelectInput from "@shared-components/Select/SelectInput";
 import RoundButton from "@shared-components/Button/RoundButton";
 import SelectSheet from "@shared-components/Select/SelectSheet";
-import { Container, LogoContainer } from "@screens/Intro/RegisterUserScreen";
+import { Container } from "@screens/Intro/RegisterUserScreen";
 import useSelect from "../../shared/hooks/useSelect";
 import { SCREENS } from "@shared-constants";
 import { useNavigation } from "@react-navigation/native";
+import Logo from "@shared-components/Logo";
 
 const RegisterExerciseScreen = () => {
   const navigation = useNavigation();
+
   const {
     state: period,
     ref: periodRef,
@@ -32,9 +32,7 @@ const RegisterExerciseScreen = () => {
 
   return (
     <Container>
-      <LogoContainer>
-        <Icon source={icLogo} width={50} />
-      </LogoContainer>
+      <Logo />
       <SelectInput
         value={period}
         label={"운동 기간"}

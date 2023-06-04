@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import styled from "styled-components";
 import Input from "./Input";
-import Icon from "@shared-components/Icon";
-import icLogo from "../../assets/images/logo.svg";
 import SelectInput from "@shared-components/Select/SelectInput";
 import SelectSheet from "@shared-components/Select/SelectSheet";
 import useSelect from "../../shared/hooks/useSelect";
@@ -11,6 +9,7 @@ import RoundButton from "@shared-components/Button/RoundButton";
 import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "@shared-constants";
 import { KEY, storeData } from "@utils";
+import Logo from "@shared-components/Logo";
 
 const RegisterUserScreen = () => {
   const navigation = useNavigation();
@@ -54,9 +53,7 @@ const RegisterUserScreen = () => {
 
   return (
     <Container>
-      <LogoContainer>
-        <Icon source={icLogo} width={50} />
-      </LogoContainer>
+      <Logo />
       <Input
         label={"이름"}
         placeholder={"이름을 입력해주세요"}
@@ -131,9 +128,4 @@ export const Container = styled(View)`
   flex: 1;
   padding: 50px 10px 0 10px;
   gap: 20px;
-`;
-
-export const LogoContainer = styled(View)`
-  justify-content: center;
-  align-items: center;
 `;
