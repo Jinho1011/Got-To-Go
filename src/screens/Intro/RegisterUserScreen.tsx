@@ -7,8 +7,12 @@ import icLogo from "../../assets/images/logo.svg";
 import SelectInput from "@shared-components/Select/SelectInput";
 import SelectSheet from "@shared-components/Select/SelectSheet";
 import useSelect from "../../shared/hooks/useSelect";
+import RoundButton from "@shared-components/Button/RoundButton";
+import { useNavigation } from "@react-navigation/native";
+import { SCREENS } from "@shared-constants";
 
 const RegisterUserScreen = () => {
+  const navigation = useNavigation();
   const [name, setName] = useState<string>("");
   const {
     state: age,
@@ -34,6 +38,13 @@ const RegisterUserScreen = () => {
     onPress: onPressWeight,
     toggle: toggleWeight,
   } = useSelect<string>();
+
+  const handleButtonPress = () => {
+    if (name && age && gender && height && weight) {
+      navigation.navigate(SCREENS.REGISTER_EXERCISE);
+    }
+    navigation.navigate(SCREENS.REGISTER_EXERCISE);
+  };
 
   return (
     <Container>
@@ -78,6 +89,7 @@ const RegisterUserScreen = () => {
           toggleWeight();
         }}
       />
+      <RoundButton title={"확인"} onPress={handleButtonPress} />
       {/**/}
       <SelectSheet
         ref={ageRef}
@@ -109,13 +121,13 @@ const RegisterUserScreen = () => {
 
 export default RegisterUserScreen;
 
-const Container = styled(View)`
+export const Container = styled(View)`
   flex: 1;
   padding: 50px 10px 0 10px;
   gap: 20px;
 `;
 
-const LogoContainer = styled(View)`
+export const LogoContainer = styled(View)`
   justify-content: center;
   align-items: center;
 `;
