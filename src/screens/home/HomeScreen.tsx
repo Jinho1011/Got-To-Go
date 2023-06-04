@@ -76,6 +76,8 @@ const HomeScreen = () => {
         <RoundButton
           title={"운동 시작하기"}
           onPress={() => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             navigation.navigate(SCREENS.SELECT_EXERCISE);
           }}
         />
