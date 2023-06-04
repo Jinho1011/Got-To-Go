@@ -25,6 +25,8 @@ const RegisterExerciseScreen = () => {
   } = useSelect<string>();
 
   const handleButtonPress = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     navigation.navigate(SCREENS.HOME);
   };
 

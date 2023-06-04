@@ -10,6 +10,7 @@ import useSelect from "../../shared/hooks/useSelect";
 import RoundButton from "@shared-components/Button/RoundButton";
 import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "@shared-constants";
+import { KEY, storeData } from "@utils";
 
 const RegisterUserScreen = () => {
   const navigation = useNavigation();
@@ -39,10 +40,15 @@ const RegisterUserScreen = () => {
     toggle: toggleWeight,
   } = useSelect<string>();
 
-  const handleButtonPress = () => {
+  const handleButtonPress = async () => {
     if (name && age && gender && height && weight) {
+      await storeData(KEY.USER, { name, age, gender, height, weight });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       navigation.navigate(SCREENS.REGISTER_EXERCISE);
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     navigation.navigate(SCREENS.REGISTER_EXERCISE);
   };
 
