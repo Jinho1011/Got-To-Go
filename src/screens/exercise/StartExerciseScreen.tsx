@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import Logo from "@shared-components/Logo";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components";
@@ -7,8 +7,13 @@ import { getData, KEY } from "../../utils/storage";
 import { FlatList, Text, View } from "react-native";
 import Timer from "@screens/exercise/components/TImer";
 import ExerciseRecordItem from "@screens/exercise/components/ExerciseRecordItem";
+import RoundButton from "@shared-components/Button/RoundButton";
+import { useNavigation } from "@react-navigation/native";
+import { SCREENS } from "@shared-constants";
 
 const StartExerciseScreen = () => {
+  const navigation = useNavigation();
+
   const [exerciseRecords, setExerciseRecords] = useState<ExerciseRecord[]>([]);
   const totalVolume = exerciseRecords.reduce(
     (setAcc, curSet) =>
@@ -20,8 +25,6 @@ const StartExerciseScreen = () => {
       ),
     0,
   );
-
-  console.log(exerciseRecords);
 
   useLayoutEffect(() => {
     getData(KEY.EXERCISE(new Date())).then((v) => setExerciseRecords(v));
@@ -43,6 +46,10 @@ const StartExerciseScreen = () => {
     return <ExerciseRecordItem record={item} setRecord={setRecord} />;
   };
 
+  const onRoundButtonPress = useCallback(() => {
+    navigation.navigate(SCREENS.HOME);
+  }, [navigation]);
+
   return (
     <Container>
       <Logo />
@@ -58,8 +65,10 @@ const StartExerciseScreen = () => {
       <FlatList
         data={exerciseRecords}
         renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       />
+      <RoundButton onPress={onRoundButtonPress} title={"운동 끝내기"} />
     </Container>
   );
 };
