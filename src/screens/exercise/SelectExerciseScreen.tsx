@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SCREENS } from "@shared-constants";
 import Logo from "@shared-components/Logo";
 import RoundButton from "@shared-components/Button/RoundButton";
 import styled from "styled-components";
 import { useNavigation } from "@react-navigation/native";
 import exercises, { Exercise } from "../../shared/exercise";
 import ExerciseItem from "@screens/exercise/components/ExerciseItem";
+import { KEY, storeData } from "../../utils/storage";
+import { SCREENS } from "@shared-constants";
 
 const categories = [
   "all",
@@ -38,6 +39,15 @@ const SelectExerciseScreen = () => {
 
   const onPressCategoryButton = (category: string) => {
     setSelectedCategory(category);
+  };
+
+  const saveExercise = async () => {
+    await storeData(
+      KEY.EXERCISE(new Date()),
+      selectedExercises.map((v) => {
+        return { ...v, sets: [] };
+      }),
+    );
   };
 
   const renderItem = useCallback(
@@ -101,10 +111,11 @@ const SelectExerciseScreen = () => {
             ? "운동을 선택해주세요"
             : `${selectedExercises.length}개의 운동 시작하기`
         }
-        onPress={() => {
+        onPress={async () => {
+          await saveExercise();
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          navigation.navigate(SCREENS.SELECT_EXERCISE);
+          navigation.navigate(SCREENS.START_EXERCISE);
         }}
       />
     </Container>
@@ -135,4 +146,5 @@ const CategoryButton = styled(Pressable)`
 
 const CategoryText = styled(Text)<{ selected: boolean }>`
   color: ${({ selected }) => (selected ? "#ffffff" : "#bdbdbd")};
+  font-weight: ${({ selected }) => (selected ? "bold" : "500")};
 `;

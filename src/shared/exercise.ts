@@ -1452,4 +1452,14 @@ export interface Exercise {
   instructions: string;
 }
 
+export interface ExerciseRecord extends Exercise {
+  sets: Set[];
+}
+
+export interface Set {
+  reps: number;
+  weight: number;
+  complete: boolean;
+}
+
 export default exercises;

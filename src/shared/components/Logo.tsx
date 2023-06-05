@@ -7,7 +7,7 @@ import { View } from "react-native";
 const Logo = () => {
   return (
     <LogoContainer>
-      <Icon source={icLogo} width={50} />
+      <Icon source={icLogo} size={50} />
     </LogoContainer>
   );
 };
