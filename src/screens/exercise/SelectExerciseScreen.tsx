@@ -1,13 +1,10 @@
-import React, { useCallback, useState } from "react";
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
+import { Pressable, SafeAreaView, ScrollView, Text } from "react-native";
 import { SCREENS } from "@shared-constants";
 import Logo from "@shared-components/Logo";
 import RoundButton from "@shared-components/Button/RoundButton";
 import styled from "styled-components";
 import { useNavigation } from "@react-navigation/native";
-import exercises, { Exercise } from "../../shared/exercise";
-import ExerciseItem from "@screens/exercise/components/ExerciseItem";
 
 const categories = [
   "all",
@@ -34,69 +31,29 @@ const SelectExerciseScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     categories[0],
   );
-  const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
+  // const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
 
   const onPressCategoryButton = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const renderItem = useCallback(
-    ({ item }: { item: Exercise }) => (
-      <ExerciseItem
-        exercise={item}
-        onPressCheck={(exercise) => {
-          if (
-            selectedExercises.find((v) => v.name == exercise.name) !== undefined
-          ) {
-            setSelectedExercises((prev) =>
-              prev.filter((v) => v.name !== exercise.name),
-            );
-          } else {
-            setSelectedExercises((prev) => [...prev, exercise]);
-          }
-        }}
-        checked={selectedExercises.findIndex((v) => v.name == item.name) !== -1}
-      />
-    ),
-    [selectedExercises],
-  );
-
   return (
     <Container>
       <Logo />
-      <CategoryContainer>
-        <ScrollView
-          horizontal
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {categories.map((category) => (
-            <CategoryButton
-              key={category}
-              onPress={() => onPressCategoryButton(category)}
-            >
-              <CategoryText selected={selectedCategory === category}>
-                {category}
-              </CategoryText>
-            </CategoryButton>
-          ))}
-        </ScrollView>
+      <CategoryContainer horizontal>
+        {categories.map((category) => (
+          <CategoryButton
+            key={category}
+            onPress={() => onPressCategoryButton(category)}
+          >
+            <CategoryText selected={selectedCategory === category}>
+              {category}
+            </CategoryText>
+          </CategoryButton>
+        ))}
       </CategoryContainer>
-      <FlatList
-        data={exercises.filter((v) =>
-          selectedCategory === categories[0]
-            ? true
-            : v.muscle === selectedCategory,
-        )}
-        renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        ItemSeparatorComponent={() => (
-          <View style={{ backgroundColor: "#242424", height: 1 }} />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
       <RoundButton
-        title={`${selectedExercises.length}개의 운동 시작하기`}
+        title={"운동 시작하기"}
         onPress={() => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -115,9 +72,7 @@ const Container = styled(SafeAreaView)`
   gap: 20px;
 `;
 
-const CategoryContainer = styled(View)`
-  height: 32px;
-`;
+const CategoryContainer = styled(ScrollView)``;
 
 const CategoryButton = styled(Pressable)`
   justify-content: center;
