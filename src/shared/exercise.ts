@@ -1457,6 +1457,7 @@ export interface ExerciseRecord extends Exercise {
 }
 
 export interface Set {
+  id: number;
   reps: number;
   weight: number;
   complete: boolean;

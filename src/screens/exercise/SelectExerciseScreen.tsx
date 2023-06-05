@@ -126,7 +126,7 @@ export default SelectExerciseScreen;
 
 const Container = styled(SafeAreaView)`
   flex: 1;
-  padding: 0 10px;
+  padding: 0 20px;
   gap: 20px;
 `;
 

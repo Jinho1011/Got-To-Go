@@ -20,7 +20,7 @@ export default RoundButton;
 const Button = styled(Pressable)`
   position: absolute;
   bottom: 40px;
-  left: 10px;
+  left: 20px;
   width: 100%;
   border-radius: 40px;
   justify-content: center;
