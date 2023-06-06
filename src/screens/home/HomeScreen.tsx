@@ -39,20 +39,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     }, []),
   );
 
-  // useEffect(() => {
-  //   const initData = async () => {
-  //     const storedUser = (await getData(KEY.USER)) as User;
-  //     const storedExercises = (await getData(
-  //       KEY.EXERCISE(new Date()),
-  //     )) as ExerciseRecord[];
-  //
-  //     setExerciseRecords(storedExercises);
-  //     setUser(storedUser);
-  //   };
-  //
-  //   initData();
-  // }, []);
-
   useEffect(() => {
     const dayIdx = daysOfWeek.findIndex((v) => v === day);
     const todayIdx = new Date().getDay();

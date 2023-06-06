@@ -12,24 +12,27 @@ const achievements = [
     name: "첫 운동 시작하기",
     condition: "처음으로 운동 기록을 생성하면 얻을 수 있습니다.",
     img: Start,
+    complete: true,
   },
 
   {
     name: "3일 연속 운동 기록 달성",
     condition: "3일 동안 운동 기록이 존재하면 얻을 수 있습니다.",
     img: C3day,
+    complete: true,
   },
   {
     name: "주간 목표 달성하기",
     condition: "주간 목표를 달성하면 얻을 수 있습니다.",
     img: Weekly,
+    complete: false,
   },
 ];
 
 const AchievementScreen = () => {
   const renderItem = ({ item, idx }: { item: any; idx: number }) => {
     return (
-      <BadgeContainer isOdd={idx % 2 !== 0}>
+      <BadgeContainer isOdd={idx % 2 !== 0} complete={item.complete}>
         <Badge source={item.img} />
         <Name>{item.name}</Name>
         <Desc>{item.condition}</Desc>
@@ -48,7 +51,6 @@ const AchievementScreen = () => {
           flex: 1,
           flexDirection: "row",
           flexWrap: "wrap",
-          gap: 10,
         }}
       >
         <FlatList
@@ -56,6 +58,12 @@ const AchievementScreen = () => {
           renderItem={renderItem}
           showsHorizontalScrollIndicator={false}
           numColumns={2}
+          contentContainerStyle={{
+            gap: 16,
+          }}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+          }}
         />
       </ScrollView>
     </Container>
@@ -70,18 +78,18 @@ const Container = styled(SafeAreaView)`
   gap: 20px;
 `;
 
-const BadgeContainer = styled(View)<{ isOdd: boolean }>`
-  width: 45%;
-  padding-right: 6px;
-  margin-bottom: 10px;
-  margin-right: 16px;
+const BadgeContainer = styled(View)<{ complete: boolean }>`
+  width: 48%;
+  padding: 16px;
+  background-color: ${({ complete }) => (complete ? "#363636" : "#181818")};
+  border-radius: 12px;
 `;
 
 const Name = styled(Text)`
   color: #ffffff;
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 
 const Desc = styled(Text)`
@@ -89,5 +97,6 @@ const Desc = styled(Text)`
 `;
 
 const Badge = styled(Image)`
-  //width: 100%;
+  width: 100%;
+  margin-bottom: 10px;
 `;
