@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Logo from "@shared-components/Logo";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components";
@@ -27,7 +27,9 @@ const StartExerciseScreen = () => {
   );
 
   useLayoutEffect(() => {
-    getData(KEY.EXERCISE(new Date())).then((v) => setExerciseRecords(v));
+    getData(KEY.EXERCISE(new Date())).then((v) => {
+      setExerciseRecords(v);
+    });
   }, []);
 
   const setRecord = (record: ExerciseRecord) => {
@@ -46,11 +48,12 @@ const StartExerciseScreen = () => {
     return <ExerciseRecordItem record={item} setRecord={setRecord} />;
   };
 
-  const onRoundButtonPress = useCallback(() => {
-    storeData(KEY.EXERCISE(new Date()), exerciseRecords);
+  const onRoundButtonPress = async () => {
+    await storeData(KEY.EXERCISE(new Date()), exerciseRecords);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     navigation.navigate(SCREENS.HOME);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  };
 
   return (
     <Container>

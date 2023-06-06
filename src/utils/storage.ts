@@ -2,7 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const KEY = {
   USER: "@user",
-  EXERCISE: (date: Date) => `@exercise-${date.toDateString()}`,
+  EXERCISE: (date: Date) => {
+    const key = `@exercise-${date.toDateString()}`;
+    return key;
+  },
 } as const;
 
 const storeData = async (key: string, value: unknown) => {

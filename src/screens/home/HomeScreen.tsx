@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "@shared-components/Logo";
 import { getData, KEY } from "../../utils/storage";
@@ -8,14 +8,14 @@ import styled from "styled-components";
 import Icon from "@shared-components/Icon";
 import icAchievement from "../../assets/images/achievement.svg";
 import RoundButton from "@shared-components/Button/RoundButton";
-import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "@shared-constants";
 import { ExerciseRecord } from "../../shared/exercise";
+import icComplete from "@assets/images/complete.svg";
+import icIncomplete from "@assets/images/incomplete.svg";
+import { useFocusEffect } from "@react-navigation/native";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-
-  const navigation = useNavigation();
 
   const [user, setUser] = useState<User>();
   const [day, setDay] = useState(daysOfWeek[new Date().getDay()]);
@@ -23,7 +23,7 @@ const HomeScreen = () => {
     ExerciseRecord[] | undefined
   >([]);
 
-  useLayoutEffect(() => {
+  useFocusEffect(() => {
     const initData = async () => {
       const storedUser = (await getData(KEY.USER)) as User;
       const storedExercises = (await getData(
@@ -35,7 +35,21 @@ const HomeScreen = () => {
     };
 
     initData();
-  }, []);
+  });
+
+  useEffect(() => {
+    const initData = async () => {
+      const storedUser = (await getData(KEY.USER)) as User;
+      const storedExercises = (await getData(
+        KEY.EXERCISE(new Date()),
+      )) as ExerciseRecord[];
+
+      setExerciseRecords(storedExercises);
+      setUser(storedUser);
+    };
+
+    initData();
+  }, [navigation]);
 
   useEffect(() => {
     const dayIdx = daysOfWeek.findIndex((v) => v === day);
@@ -45,13 +59,34 @@ const HomeScreen = () => {
     const thatDay = new Date();
     thatDay.setDate(new Date().getDate() + dayDiff);
 
-    getData(KEY.EXERCISE(thatDay)).then((v) => setExerciseRecords(v));
+    getData(KEY.EXERCISE(dayDiff === 0 ? new Date() : thatDay)).then((v) =>
+      setExerciseRecords(v),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day]);
+  }, [navigation, day]);
 
   const onPressDay = (item: string) => {
     setDay(item);
   };
+
+  const renderItem = useCallback(({ item }: { item: ExerciseRecord }) => {
+    return (
+      <RecordContainer>
+        <View>
+          <Desc>
+            {item.muscle} · {item.sets.length} sets ·{" "}
+            {item.sets.reduce((acc, cur) => acc + cur.weight * cur.reps, 0)} kg
+          </Desc>
+          <Name>{item.name}</Name>
+        </View>
+        <Icon
+          source={
+            item.sets.findIndex((v) => v.complete) ? icComplete : icIncomplete
+          }
+        />
+      </RecordContainer>
+    );
+  }, []);
 
   const ListEmptyComponent = (
     <EmptyText>
@@ -85,9 +120,7 @@ const HomeScreen = () => {
       <DatePreview>{new Date().toLocaleDateString()}</DatePreview>
       <FlatList
         data={exerciseRecords}
-        renderItem={({ item }) => {
-          return <Text style={{ color: "white" }}>{item.name}</Text>;
-        }}
+        renderItem={renderItem}
         ListEmptyComponent={ListEmptyComponent}
       />
       {exerciseRecords?.length === 0 &&
@@ -101,6 +134,14 @@ const HomeScreen = () => {
             }}
           />
         )}
+      <RoundButton
+        title={"운동 시작하기"}
+        onPress={() => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          navigation.navigate(SCREENS.SELECT_EXERCISE);
+        }}
+      />
     </Container>
   );
 };
@@ -175,4 +216,22 @@ const EmptyText = styled(Text)`
   color: #bdbdbd;
   text-align: center;
   font-size: 16px;
+`;
+
+const RecordContainer = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+`;
+
+const Name = styled(Text)`
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const Desc = styled(Text)`
+  color: #adadad;
+  margin-bottom: 4px;
 `;
