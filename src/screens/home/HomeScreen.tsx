@@ -23,33 +23,35 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     ExerciseRecord[] | undefined
   >([]);
 
-  useFocusEffect(() => {
-    const initData = async () => {
-      const storedUser = (await getData(KEY.USER)) as User;
-      const storedExercises = (await getData(
-        KEY.EXERCISE(new Date()),
-      )) as ExerciseRecord[];
+  useFocusEffect(
+    useCallback(() => {
+      const initData = async () => {
+        const storedUser = (await getData(KEY.USER)) as User;
+        const storedExercises = (await getData(
+          KEY.EXERCISE(new Date()),
+        )) as ExerciseRecord[];
 
-      setExerciseRecords(storedExercises);
-      setUser(storedUser);
-    };
+        setExerciseRecords(storedExercises);
+        setUser(storedUser);
+      };
 
-    initData();
-  });
+      initData();
+    }, []),
+  );
 
-  useEffect(() => {
-    const initData = async () => {
-      const storedUser = (await getData(KEY.USER)) as User;
-      const storedExercises = (await getData(
-        KEY.EXERCISE(new Date()),
-      )) as ExerciseRecord[];
-
-      setExerciseRecords(storedExercises);
-      setUser(storedUser);
-    };
-
-    initData();
-  }, []);
+  // useEffect(() => {
+  //   const initData = async () => {
+  //     const storedUser = (await getData(KEY.USER)) as User;
+  //     const storedExercises = (await getData(
+  //       KEY.EXERCISE(new Date()),
+  //     )) as ExerciseRecord[];
+  //
+  //     setExerciseRecords(storedExercises);
+  //     setUser(storedUser);
+  //   };
+  //
+  //   initData();
+  // }, []);
 
   useEffect(() => {
     const dayIdx = daysOfWeek.findIndex((v) => v === day);
@@ -63,7 +65,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       setExerciseRecords(v),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation, day]);
+  }, [day]);
 
   const onPressDay = (item: string) => {
     setDay(item);
@@ -81,7 +83,9 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         </View>
         <Icon
           source={
-            item.sets.findIndex((v) => v.complete) ? icComplete : icIncomplete
+            item.sets.findIndex((v) => !v.complete) > 0
+              ? icIncomplete
+              : icComplete
           }
         />
       </RecordContainer>
