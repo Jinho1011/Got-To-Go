@@ -20,6 +20,7 @@ const ExerciseRecordItem = ({ record, setRecord }: ExerciseRecordItemProps) => {
 
   useEffect(() => {
     setRecord({ ...record, sets });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sets]);
 
@@ -27,9 +28,9 @@ const ExerciseRecordItem = ({ record, setRecord }: ExerciseRecordItemProps) => {
     setSets((prev) => [
       ...prev,
       {
-        id: sets.length + 1,
-        weight: 0,
-        reps: 0,
+        id: prev.length + 1,
+        weight: prev[prev.length - 1]?.weight || 0,
+        reps: prev[prev.length - 1]?.reps || 0,
         complete: false,
       },
     ]);
@@ -45,10 +46,8 @@ const ExerciseRecordItem = ({ record, setRecord }: ExerciseRecordItemProps) => {
         </Volume>
       </RecordHeader>
       <SetsContainer>
-        {sets.map((set, idx) => {
-          return (
-            <SetItem idx={idx + 1} set={set} setSets={setSets} key={idx} />
-          );
+        {sets.map((set) => {
+          return <SetItem set={set} setSets={setSets} key={set.id} />;
         })}
         <AddRepButton onPress={addSet}>
           <AddRepText>Add Set</AddRepText>
@@ -59,16 +58,14 @@ const ExerciseRecordItem = ({ record, setRecord }: ExerciseRecordItemProps) => {
 };
 
 const SetItem = ({
-  idx,
   set,
   setSets,
 }: {
-  idx: number;
   set: Set;
   setSets: React.Dispatch<React.SetStateAction<Set[]>>;
 }) => {
-  const [weight, setWeight] = useState("");
-  const [reps, setReps] = useState("");
+  const [weight, setWeight] = useState(set.weight.toString());
+  const [reps, setReps] = useState(set.reps.toString());
 
   const onPressCheck = () => {
     if (set.complete) {
@@ -105,7 +102,7 @@ const SetItem = ({
   return (
     <SetContainer>
       <Row>
-        <Idx>{idx}</Idx>
+        <Idx>{set.id}</Idx>
         <Row>
           <Input
             value={weight}

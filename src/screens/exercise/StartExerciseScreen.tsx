@@ -3,7 +3,7 @@ import Logo from "@shared-components/Logo";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components";
 import { ExerciseRecord } from "../../shared/exercise";
-import { getData, KEY } from "../../utils/storage";
+import { getData, KEY, storeData } from "../../utils/storage";
 import { FlatList, Text, View } from "react-native";
 import Timer from "@screens/exercise/components/TImer";
 import ExerciseRecordItem from "@screens/exercise/components/ExerciseRecordItem";
@@ -47,7 +47,9 @@ const StartExerciseScreen = () => {
   };
 
   const onRoundButtonPress = useCallback(() => {
+    storeData(KEY.EXERCISE(new Date()), exerciseRecords);
     navigation.navigate(SCREENS.HOME);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
   return (

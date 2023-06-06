@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "@shared-components/Logo";
 import { getData, KEY } from "../../utils/storage";
@@ -10,6 +10,7 @@ import icAchievement from "../../assets/images/achievement.svg";
 import RoundButton from "@shared-components/Button/RoundButton";
 import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "@shared-constants";
+import { ExerciseRecord } from "../../shared/exercise";
 
 const HomeScreen = () => {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
@@ -18,17 +19,35 @@ const HomeScreen = () => {
 
   const [user, setUser] = useState<User>();
   const [day, setDay] = useState(daysOfWeek[new Date().getDay()]);
-  const exerciseRecords = [];
+  const [exerciseRecords, setExerciseRecords] = useState<
+    ExerciseRecord[] | undefined
+  >([]);
 
   useLayoutEffect(() => {
     const initData = async () => {
       const storedUser = (await getData(KEY.USER)) as User;
+      const storedExercises = (await getData(
+        KEY.EXERCISE(new Date()),
+      )) as ExerciseRecord[];
 
+      setExerciseRecords(storedExercises);
       setUser(storedUser);
     };
 
     initData();
   }, []);
+
+  useEffect(() => {
+    const dayIdx = daysOfWeek.findIndex((v) => v === day);
+    const todayIdx = new Date().getDay();
+    const dayDiff = dayIdx - todayIdx;
+
+    const thatDay = new Date();
+    thatDay.setDate(new Date().getDate() + dayDiff);
+
+    getData(KEY.EXERCISE(thatDay)).then((v) => setExerciseRecords(v));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [day]);
 
   const onPressDay = (item: string) => {
     setDay(item);
@@ -66,22 +85,22 @@ const HomeScreen = () => {
       <DatePreview>{new Date().toLocaleDateString()}</DatePreview>
       <FlatList
         data={exerciseRecords}
-        renderItem={(item) => {
-          console.log(item);
-          return <></>;
+        renderItem={({ item }) => {
+          return <Text style={{ color: "white" }}>{item.name}</Text>;
         }}
         ListEmptyComponent={ListEmptyComponent}
       />
-      {exerciseRecords.length === 0 && day === daysOfWeek[new Date().getDay()] && (
-        <RoundButton
-          title={"운동 시작하기"}
-          onPress={() => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            navigation.navigate(SCREENS.SELECT_EXERCISE);
-          }}
-        />
-      )}
+      {exerciseRecords?.length === 0 &&
+        day === daysOfWeek[new Date().getDay()] && (
+          <RoundButton
+            title={"운동 시작하기"}
+            onPress={() => {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              navigation.navigate(SCREENS.SELECT_EXERCISE);
+            }}
+          />
+        )}
     </Container>
   );
 };
@@ -90,7 +109,7 @@ export default HomeScreen;
 
 const Container = styled(SafeAreaView)`
   flex: 1;
-  padding: 0 10px;
+  padding: 0 20px;
   gap: 20px;
 `;
 
