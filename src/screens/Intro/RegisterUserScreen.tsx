@@ -126,6 +126,6 @@ export default RegisterUserScreen;
 
 export const Container = styled(View)`
   flex: 1;
-  padding: 50px 10px 0 10px;
+  padding: 50px 20px 0 20px;
   gap: 20px;
 `;
