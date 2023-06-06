@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     };
 
     initData();
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     const dayIdx = daysOfWeek.findIndex((v) => v === day);
@@ -104,7 +104,9 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
           <SubTitle>welcome back,</SubTitle>
           <Title>{user?.name}</Title>
         </View>
-        <AchievementButton>
+        <AchievementButton
+          onPress={() => navigation.navigate(SCREENS.ACHIEVMENT)}
+        >
           <Icon source={icAchievement} />
         </AchievementButton>
       </HeaderContainer>
